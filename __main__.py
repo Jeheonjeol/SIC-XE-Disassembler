@@ -16,10 +16,14 @@ if __name__ == '__main__':
     symbols = sym.ReadSymbols(SYM_DIR)
     ocHelper = oh.OpcodeHelper()
 
+    # Header & End
+    header = asm.AssemblyLine(hRecord.startingAddr, hRecord.programName, 'START', hRecord.startingAddr)
+    end = asm.AssemblyLine(None, mnemonic='END', operand=symbols[eRecord.startingAddr].label)
+
     # for output
     BASE_R = 0
     LOCCTR = 0
-    assembly = asm.CreateAssembly()
+    assembly = asm.AssemblyDict(header, end)
 
     # Symbol
     locList = list(symbols.keys())     # Symbol locs
@@ -162,10 +166,6 @@ if __name__ == '__main__':
             LOCCTR += int(curHalfByteLen / 2)
 
 
-    # Header & End
-    header = asm.AssemblyLine(hRecord.startingAddr, hRecord.programName, 'START', hRecord.startingAddr)
-    end = asm.AssemblyLine(None, mnemonic='END', operand=symbols[eRecord.startingAddr].label)
-
     # Write Assembly file
-    asm.WriteAssembly(ASM_DIR, header, assembly, end)
+    assembly.writeAssemblyFile(ASM_DIR)
 
