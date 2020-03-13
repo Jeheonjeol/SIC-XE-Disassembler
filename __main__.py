@@ -168,4 +168,4 @@ if __name__ == '__main__':
 
     # Write Assembly file
     assembly.writeAssemblyFile(ASM_DIR)
-
+    print('finish disassemble!')
